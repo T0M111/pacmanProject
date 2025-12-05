@@ -56,6 +56,9 @@ public class Ghost {
             // No puede continuar, cambiar de dirección
             changeDirection();
         }
+        
+        // Aplicar efecto túnel (wrap-around horizontal)
+        x = board.wrapX(x);
     }
     
     private void changeDirection() {
