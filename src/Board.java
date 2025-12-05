@@ -124,11 +124,13 @@ public class Board extends JPanel implements ActionListener {
         }
         
         // Inicializar Pacman y fantasmas
+        // Los fantasmas empiezan alineados con la salida de la casa de fantasmas
+        // para que puedan moverse libremente. En nivel 1, la salida está en (9, 8)
         pacman = new Pacman(9 * TILE_SIZE, 15 * TILE_SIZE, this);
         ghosts = new Ghost[] {
             new Ghost(9 * TILE_SIZE, 9 * TILE_SIZE, Color.RED, this),
-            new Ghost(8 * TILE_SIZE, 9 * TILE_SIZE, Color.PINK, this),
-            new Ghost(10 * TILE_SIZE, 9 * TILE_SIZE, Color.CYAN, this)
+            new Ghost(9 * TILE_SIZE, 9 * TILE_SIZE, Color.PINK, this),
+            new Ghost(9 * TILE_SIZE, 9 * TILE_SIZE, Color.CYAN, this)
         };
         
         gameWon = false;

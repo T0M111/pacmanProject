@@ -10,14 +10,16 @@ public class Ghost {
     private static final int SIZE = 20;
     private static final int SPEED = 2;
     private static final int CHASE_UPDATE_FREQUENCY = 15;
+    private static final int HOUSE_EXIT_ROW = 6;
     private int moveCounter = 0;
+    private boolean hasEscapedHouse = false;
 
     public Ghost(int x, int y, Color color, Board board) {
         this.x = x;
         this.y = y;
         this.color = color;
         this.board = board;
-        this.direction = Direction.values()[random.nextInt(4)];
+        this.direction = Direction.UP; // Empezar yendo hacia arriba para salir de la casa
     }
 
     public void draw(Graphics g) {
@@ -37,15 +39,30 @@ public class Ghost {
     public void move() {
         moveCounter++;
         
-        // Cambiar dirección hacia Pacman cada ciertos movimientos
-        if (moveCounter % CHASE_UPDATE_FREQUENCY == 0) {
-            chaseDirection();
+        // Verificar si el fantasma ha salido de la casa (está por encima de la fila 7)
+        int tileY = y / Board.TILE_SIZE;
+        if (tileY <= HOUSE_EXIT_ROW) {
+            hasEscapedHouse = true;
+        }
+        
+        // Si aún está en la casa de fantasmas, priorizar salir
+        if (!hasEscapedHouse) {
+            escapeHouse();
+        } else {
+            // Cambiar dirección hacia Pacman cada ciertos movimientos
+            if (moveCounter % CHASE_UPDATE_FREQUENCY == 0) {
+                chaseDirection();
+            }
         }
         
         // Intentar moverse en la dirección actual
         if (!tryMoveInDirection(direction)) {
             // No puede continuar, intentar perseguir o cambiar de dirección
-            chaseDirection();
+            if (hasEscapedHouse) {
+                chaseDirection();
+            } else {
+                escapeHouse();
+            }
             if (!tryMoveInDirection(direction)) {
                 changeDirection();
             }
@@ -53,6 +70,17 @@ public class Ghost {
         
         // Verificar si hay que teletransportar (túneles)
         wrapAround();
+    }
+    
+    private void escapeHouse() {
+        // Priorizar UP para salir de la casa de fantasmas
+        Direction[] escapeDirs = {Direction.UP, Direction.LEFT, Direction.RIGHT, Direction.DOWN};
+        for (Direction dir : escapeDirs) {
+            if (canMoveInDirection(dir)) {
+                direction = dir;
+                return;
+            }
+        }
     }
     
     private boolean tryMoveInDirection(Direction dir) {
