@@ -54,6 +54,9 @@ public class Pacman {
                 y = nextY;
             }
         }
+        
+        // Aplicar efecto túnel (wrap-around horizontal)
+        x = board.wrapX(x);
     }
 
     public void keyPressed(KeyEvent e) {

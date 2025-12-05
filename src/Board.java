@@ -250,8 +250,25 @@ public class Board extends JPanel implements ActionListener {
         int tileX = x / TILE_SIZE;
         int tileY = y / TILE_SIZE;
         
-        if (tileX < 0 || tileX >= BOARD_WIDTH || tileY < 0 || tileY >= BOARD_HEIGHT) {
-            return true; // Fuera de límites se considera pared
+        // Permitir salir por los lados (túneles)
+        if (tileX < 0 || tileX >= BOARD_WIDTH) {
+            // Si está fuera de los límites horizontales, verificar si hay un túnel
+            // (si la celda en el borde opuesto no es pared)
+            if (tileY >= 0 && tileY < BOARD_HEIGHT) {
+                // Verificar el borde correspondiente
+                if (tileX < 0) {
+                    // Saliendo por la izquierda, verificar si hay túnel en el borde izquierdo
+                    return levelMap[tileY][0] == WALL;
+                } else {
+                    // Saliendo por la derecha, verificar si hay túnel en el borde derecho
+                    return levelMap[tileY][BOARD_WIDTH - 1] == WALL;
+                }
+            }
+            return true;
+        }
+        
+        if (tileY < 0 || tileY >= BOARD_HEIGHT) {
+            return true; // Fuera de límites verticales se considera pared
         }
         return levelMap[tileY][tileX] == WALL;
     }
@@ -263,6 +280,22 @@ public class Board extends JPanel implements ActionListener {
                !isWall(x + size - 1, y) && 
                !isWall(x, y + size - 1) && 
                !isWall(x + size - 1, y + size - 1);
+    }
+    
+    // Método para obtener el ancho del tablero en píxeles
+    public int getBoardPixelWidth() {
+        return BOARD_WIDTH * TILE_SIZE;
+    }
+    
+    // Método para aplicar el efecto túnel (wrap-around horizontal)
+    public int wrapX(int x) {
+        int boardPixelWidth = BOARD_WIDTH * TILE_SIZE;
+        if (x < -TILE_SIZE) {
+            return boardPixelWidth - TILE_SIZE;
+        } else if (x >= boardPixelWidth) {
+            return 0;
+        }
+        return x;
     }
 
     private class PacmanKeyAdapter extends KeyAdapter {
