@@ -30,8 +30,8 @@ public class Board extends JPanel implements ActionListener {
     // Posiciones de spawn de Pacman para cada nivel {x, y} en tiles
     private static final int[][] PACMAN_SPAWN = {
         {9, 15},  // Nivel 1 - posición original
-        {9, 9},   // Nivel 2 - centro del mapa (área vacía)
-        {9, 9}    // Nivel 3 - centro del mapa
+        {9, 13},   // Nivel 2 - posición segura (área vacía)
+        {9, 13}    // Nivel 3 - posición segura
     };
     
     // Diseños de los 3 niveles (1 = pared, 2 = punto, 0 = vacío)
