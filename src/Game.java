@@ -2,10 +2,11 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame {
     public Game() {
-        add(new Board());
+        Board board = new Board();
+        add(board);
         setTitle("Pac-Man");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 420);
+        pack();
         setLocationRelativeTo(null);
         setResizable(false);
     }
