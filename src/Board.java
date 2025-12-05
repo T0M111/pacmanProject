@@ -125,10 +125,15 @@ public class Board extends JPanel implements ActionListener {
         
         // Inicializar Pacman y fantasmas
         pacman = new Pacman(9 * TILE_SIZE, 15 * TILE_SIZE, this);
+        
+        // Crear fantasmas con inteligencia basada en el nivel actual
+        // Nivel 1: movimiento aleatorio (sin persecución)
+        // Nivel 2: 30% de probabilidad de perseguir
+        // Nivel 3+: 60%+ de probabilidad de perseguir con mejor pathfinding
         ghosts = new Ghost[] {
-            new Ghost(9 * TILE_SIZE, 9 * TILE_SIZE, Color.RED, this),
-            new Ghost(8 * TILE_SIZE, 9 * TILE_SIZE, Color.PINK, this),
-            new Ghost(10 * TILE_SIZE, 9 * TILE_SIZE, Color.CYAN, this)
+            new Ghost(9 * TILE_SIZE, 9 * TILE_SIZE, Color.RED, this, pacman, currentLevel),
+            new Ghost(8 * TILE_SIZE, 9 * TILE_SIZE, Color.PINK, this, pacman, currentLevel),
+            new Ghost(10 * TILE_SIZE, 9 * TILE_SIZE, Color.CYAN, this, pacman, currentLevel)
         };
         
         gameWon = false;
