@@ -289,7 +289,7 @@ public class Board extends JPanel implements ActionListener {
     
     // Método para aplicar el efecto túnel (wrap-around horizontal)
     public int wrapX(int x) {
-        int boardPixelWidth = BOARD_WIDTH * TILE_SIZE;
+        int boardPixelWidth = getBoardPixelWidth();
         if (x < -TILE_SIZE) {
             return boardPixelWidth - TILE_SIZE;
         } else if (x >= boardPixelWidth) {
