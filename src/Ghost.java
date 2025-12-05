@@ -9,6 +9,8 @@ public class Ghost {
     private Board board;
     private static final int SIZE = 20;
     private static final int SPEED = 2;
+    private static final int CHASE_UPDATE_FREQUENCY = 15;
+    private int moveCounter = 0;
 
     public Ghost(int x, int y, Color color, Board board) {
         this.x = x;
@@ -33,28 +35,103 @@ public class Ghost {
     }
 
     public void move() {
+        moveCounter++;
+        
+        // Cambiar dirección hacia Pacman cada ciertos movimientos
+        if (moveCounter % CHASE_UPDATE_FREQUENCY == 0) {
+            chaseDirection();
+        }
+        
         // Intentar moverse en la dirección actual
+        if (!tryMoveInDirection(direction)) {
+            // No puede continuar, intentar perseguir o cambiar de dirección
+            chaseDirection();
+            if (!tryMoveInDirection(direction)) {
+                changeDirection();
+            }
+        }
+        
+        // Verificar si hay que teletransportar (túneles)
+        wrapAround();
+    }
+    
+    private boolean tryMoveInDirection(Direction dir) {
         int nextX = x;
         int nextY = y;
         
-        switch (direction) {
+        switch (dir) {
             case LEFT: nextX = x - SPEED; break;
             case RIGHT: nextX = x + SPEED; break;
             case UP: nextY = y - SPEED; break;
             case DOWN: nextY = y + SPEED; break;
         }
         
-        // Si puede moverse, hacerlo; si no, cambiar de dirección
         if (board.canMove(nextX, nextY, SIZE)) {
             x = nextX;
             y = nextY;
-            // Ocasionalmente cambiar de dirección incluso si puede continuar
-            if (random.nextInt(50) == 0) {
-                changeDirection();
+            return true;
+        }
+        return false;
+    }
+    
+    private void chaseDirection() {
+        Point pacmanPos = board.getPacmanPosition();
+        
+        int dx = pacmanPos.x - x;
+        int dy = pacmanPos.y - y;
+        
+        // Crear lista de direcciones preferidas basadas en la posición de Pacman
+        Direction[] preferredDirs = new Direction[4];
+        int index = 0;
+        
+        // Priorizar la dirección que más nos acerca a Pacman
+        if (Math.abs(dx) > Math.abs(dy)) {
+            // Priorizar horizontal
+            if (dx > 0) {
+                preferredDirs[index++] = Direction.RIGHT;
+                preferredDirs[index++] = (dy > 0) ? Direction.DOWN : Direction.UP;
+                preferredDirs[index++] = (dy > 0) ? Direction.UP : Direction.DOWN;
+                preferredDirs[index++] = Direction.LEFT;
+            } else {
+                preferredDirs[index++] = Direction.LEFT;
+                preferredDirs[index++] = (dy > 0) ? Direction.DOWN : Direction.UP;
+                preferredDirs[index++] = (dy > 0) ? Direction.UP : Direction.DOWN;
+                preferredDirs[index++] = Direction.RIGHT;
             }
         } else {
-            // No puede continuar, cambiar de dirección
-            changeDirection();
+            // Priorizar vertical
+            if (dy > 0) {
+                preferredDirs[index++] = Direction.DOWN;
+                preferredDirs[index++] = (dx > 0) ? Direction.RIGHT : Direction.LEFT;
+                preferredDirs[index++] = (dx > 0) ? Direction.LEFT : Direction.RIGHT;
+                preferredDirs[index++] = Direction.UP;
+            } else {
+                preferredDirs[index++] = Direction.UP;
+                preferredDirs[index++] = (dx > 0) ? Direction.RIGHT : Direction.LEFT;
+                preferredDirs[index++] = (dx > 0) ? Direction.LEFT : Direction.RIGHT;
+                preferredDirs[index++] = Direction.DOWN;
+            }
+        }
+        
+        // Intentar la primera dirección válida
+        for (Direction dir : preferredDirs) {
+            if (canMoveInDirection(dir)) {
+                direction = dir;
+                return;
+            }
+        }
+    }
+    
+    private void wrapAround() {
+        int boardPixelWidth = Board.BOARD_WIDTH * Board.TILE_SIZE;
+        
+        // Si sale por la izquierda, aparece por la derecha
+        if (x + SIZE <= 0) {
+            x = boardPixelWidth - SPEED;
+        }
+        // Si sale por la derecha, aparece por la izquierda
+        else if (x >= boardPixelWidth) {
+            x = -SIZE + SPEED;
         }
     }
     

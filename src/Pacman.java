@@ -54,6 +54,22 @@ public class Pacman {
                 y = nextY;
             }
         }
+        
+        // Verificar si hay que teletransportar (túneles)
+        wrapAround();
+    }
+    
+    private void wrapAround() {
+        int boardPixelWidth = Board.BOARD_WIDTH * Board.TILE_SIZE;
+        
+        // Si sale por la izquierda, aparece por la derecha
+        if (x + SIZE <= 0) {
+            x = boardPixelWidth - SPEED;
+        }
+        // Si sale por la derecha, aparece por la izquierda
+        else if (x >= boardPixelWidth) {
+            x = -SIZE + SPEED;
+        }
     }
 
     public void keyPressed(KeyEvent e) {

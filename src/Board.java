@@ -250,8 +250,19 @@ public class Board extends JPanel implements ActionListener {
         int tileX = x / TILE_SIZE;
         int tileY = y / TILE_SIZE;
         
-        if (tileX < 0 || tileX >= BOARD_WIDTH || tileY < 0 || tileY >= BOARD_HEIGHT) {
-            return true; // Fuera de límites se considera pared
+        // Para túneles horizontales, permitir salir por los lados
+        if (tileX < 0 || tileX >= BOARD_WIDTH) {
+            // Solo permitir si está en una fila que tiene túnel
+            if (tileY >= 0 && tileY < BOARD_HEIGHT) {
+                // Verificar si el borde opuesto es transitable (no es pared)
+                int oppositeTileX = (tileX < 0) ? BOARD_WIDTH - 1 : 0;
+                return levelMap[tileY][oppositeTileX] == WALL;
+            }
+            return true;
+        }
+        
+        if (tileY < 0 || tileY >= BOARD_HEIGHT) {
+            return true; // Fuera de límites verticales se considera pared
         }
         return levelMap[tileY][tileX] == WALL;
     }
@@ -263,6 +274,11 @@ public class Board extends JPanel implements ActionListener {
                !isWall(x + size - 1, y) && 
                !isWall(x, y + size - 1) && 
                !isWall(x + size - 1, y + size - 1);
+    }
+    
+    // Obtener posición de Pacman para que los fantasmas puedan perseguirlo
+    public Point getPacmanPosition() {
+        return new Point(pacman.getX(), pacman.getY());
     }
 
     private class PacmanKeyAdapter extends KeyAdapter {
