@@ -56,13 +56,13 @@ public class Ghost {
     
     private boolean shouldChasePacman() {
         // Probabilidad de perseguir basada en el nivel de inteligencia
-        // Nivel 1: 0% (movimiento aleatorio puro)
+        // Nivel 1: 10% (movimiento mayormente aleatorio pero con algo de persecución para salir del área inicial)
         // Nivel 2: 30% de probabilidad de perseguir
         // Nivel 3+: 60% + 10% por cada nivel adicional (máximo 90%)
         int chaseChance;
         switch (intelligenceLevel) {
             case 1:
-                chaseChance = 0;
+                chaseChance = 10;
                 break;
             case 2:
                 chaseChance = 30;
