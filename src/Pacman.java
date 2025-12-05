@@ -8,7 +8,7 @@ public class Pacman {
     private int score = 0;
     private Board board;
     private static final int SIZE = 20;
-    private static final int SPEED = 2;
+    private static final int SPEED = 5;
 
     public Pacman(int x, int y, Board board) {
         this.x = x;
