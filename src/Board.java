@@ -27,6 +27,13 @@ public class Board extends JPanel implements ActionListener {
     // Mapa del nivel actual
     private int[][] levelMap;
     
+    // Posiciones de spawn de Pacman para cada nivel {x, y} en tiles
+    private static final int[][] PACMAN_SPAWN = {
+        {9, 15},  // Nivel 1 - posición original
+        {9, 9},   // Nivel 2 - centro del mapa (área vacía)
+        {9, 9}    // Nivel 3 - centro del mapa
+    };
+    
     // Diseños de los 3 niveles (1 = pared, 2 = punto, 0 = vacío)
     private static final int[][][] LEVELS = {
         // Nivel 1 - Laberinto simple
@@ -124,7 +131,9 @@ public class Board extends JPanel implements ActionListener {
         }
         
         // Inicializar Pacman y fantasmas
-        pacman = new Pacman(9 * TILE_SIZE, 15 * TILE_SIZE, this);
+        int spawnX = PACMAN_SPAWN[levelIndex][0] * TILE_SIZE;
+        int spawnY = PACMAN_SPAWN[levelIndex][1] * TILE_SIZE;
+        pacman = new Pacman(spawnX, spawnY, this);
         
         // Crear fantasmas con inteligencia basada en el nivel actual
         // Nivel 1: 10% de probabilidad de perseguir (suficiente para salir del área inicial)
