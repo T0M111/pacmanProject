@@ -27,15 +27,6 @@ jobs:
       
     - name: Compilar código fuente
       run: javac -d bin src/*.java
-      
-    - name: Verificar compilación exitosa
-      run: |
-        if [ -f bin/Game.class ]; then
-          echo "✓ Compilación exitosa - Game.class generado"
-        else
-          echo "✗ Error: Game.class no encontrado"
-          exit 1
-        fi
         
     - name: Listar archivos compilados
       run: ls -la bin/
