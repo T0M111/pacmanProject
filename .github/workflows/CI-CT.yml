@@ -11,6 +11,8 @@ jobs:
   build-and-test:
     name: Integración y Prueba Continua
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout código
