@@ -97,6 +97,24 @@ Los tests incluyen:
 - Implementar efectos de sonido.
 - Añadir “power-ups” y más funcionalidades clásicas del juego.
 
+
+## Despliegue
+
+El proyecto incluye una carpeta `public/` que contiene:
+- **pacman-game.jar**: El artefacto ejecutable del juego
+- **index.html**: Página de descarga del juego
+
+Esta carpeta está lista para ser desplegada en servicios como Render, Netlify, o cualquier servicio de hosting estático. El workflow de CD actualiza automáticamente esta carpeta después de cada build exitoso.
+
+### Desplegar en Render
+
+1. Conecta tu repositorio de GitHub con Render
+2. Configura un nuevo Static Site
+3. Establece el directorio de publicación como `public`
+4. Render desplegará automáticamente los archivos y servirá la página de descarga
+
+El juego también se despliega automáticamente en GitHub Pages en cada push a la rama principal.
+
 ## Autor
 
 Proyecto desarrollado por [paberlo].
