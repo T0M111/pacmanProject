@@ -235,7 +235,7 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.event.workflow_run.head_branch }}
+        ref: main
         
     - name: Configurar Git
       run: |
