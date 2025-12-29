@@ -1,0 +1,224 @@
+name: CD - Despliegue Continuo
+
+on:
+  workflow_run:
+    workflows: ["CI/CT"]
+    types:
+      - completed
+    branches: [main, master]
+
+jobs:
+  deploy-github-pages:
+    name: Desplegar Landing Page en GitHub Pages
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Configurar JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Descargar artefacto JAR del workflow CI/CT
+      uses: actions/download-artifact@v4
+      with:
+        name: pacman-game
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        run-id: ${{ github.event.workflow_run.id }}
+        
+    - name: Crear directorio de despliegue
+      run: mkdir -p deploy
+      
+    - name: Copiar JAR al directorio de despliegue
+      run: cp pacman-project-1.0-SNAPSHOT.jar deploy/pacman-game.jar
+      
+    - name: Crear landing page HTML
+      run: |
+        cat > deploy/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Pac-Man Game - Descarga</title>
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    min-height: 100vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 20px;
+                }
+                
+                .container {
+                    background: white;
+                    border-radius: 20px;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    max-width: 600px;
+                    width: 100%;
+                    padding: 40px;
+                    text-align: center;
+                }
+                
+                h1 {
+                    color: #333;
+                    font-size: 2.5em;
+                    margin-bottom: 10px;
+                }
+                
+                .game-title {
+                    color: #667eea;
+                    font-weight: bold;
+                }
+                
+                .subtitle {
+                    color: #666;
+                    font-size: 1.1em;
+                    margin-bottom: 30px;
+                }
+                
+                .game-icon {
+                    font-size: 80px;
+                    margin: 20px 0;
+                }
+                
+                .description {
+                    color: #555;
+                    line-height: 1.6;
+                    margin-bottom: 30px;
+                    text-align: left;
+                }
+                
+                .description ul {
+                    margin-left: 20px;
+                    margin-top: 10px;
+                }
+                
+                .download-btn {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 15px 40px;
+                    border: none;
+                    border-radius: 50px;
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-decoration: none;
+                    display: inline-block;
+                    transition: transform 0.3s, box-shadow 0.3s;
+                    margin: 20px 0;
+                }
+                
+                .download-btn:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                }
+                
+                .requirements {
+                    background: #f5f5f5;
+                    border-radius: 10px;
+                    padding: 20px;
+                    margin-top: 30px;
+                    text-align: left;
+                }
+                
+                .requirements h3 {
+                    color: #333;
+                    margin-bottom: 10px;
+                }
+                
+                .requirements p {
+                    color: #666;
+                    line-height: 1.6;
+                }
+                
+                .requirements code {
+                    background: #e0e0e0;
+                    padding: 2px 6px;
+                    border-radius: 3px;
+                    font-family: 'Courier New', monospace;
+                }
+                
+                .footer {
+                    margin-top: 30px;
+                    color: #999;
+                    font-size: 0.9em;
+                }
+                
+                .github-link {
+                    color: #667eea;
+                    text-decoration: none;
+                    font-weight: bold;
+                }
+                
+                .github-link:hover {
+                    text-decoration: underline;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🎮 <span class="game-title">Pac-Man</span> Game</h1>
+                <p class="subtitle">¡Descarga y juega ahora!</p>
+                
+                <div class="game-icon">👻 🟡 👻</div>
+                
+                <div class="description">
+                    <p><strong>¡Bienvenido al clásico juego de Pac-Man!</strong></p>
+                    <p>Un juego desarrollado en Java con las siguientes características:</p>
+                    <ul>
+                        <li>Laberinto interactivo</li>
+                        <li>Control con teclas de flecha</li>
+                        <li>Fantasmas con IA automática</li>
+                        <li>Sistema de puntuación</li>
+                        <li>Condiciones de victoria y derrota</li>
+                    </ul>
+                </div>
+                
+                <a href="pacman-game.jar" class="download-btn" download>
+                    ⬇️ Descargar Pac-Man.jar
+                </a>
+                
+                <div class="requirements">
+                    <h3>📋 Requisitos</h3>
+                    <p><strong>Java Runtime Environment (JRE) 8 o superior</strong></p>
+                    <p style="margin-top: 10px;">Para ejecutar el juego, usa el siguiente comando:</p>
+                    <p style="margin-top: 10px;"><code>java -jar pacman-game.jar</code></p>
+                </div>
+                
+                <div class="footer">
+                    <p>Desarrollado con ❤️ | <a href="https://github.com/T0M111/pacmanProject" class="github-link" target="_blank">Ver en GitHub</a></p>
+                    <p style="margin-top: 10px;">Desplegado automáticamente con GitHub Actions</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        EOF
+        
+    - name: Configurar GitHub Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Subir artefacto de Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: deploy
+        
+    - name: Desplegar a GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
