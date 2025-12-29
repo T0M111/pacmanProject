@@ -28,7 +28,7 @@ jobs:
       run: mkdir -p bin
       
     - name: Compilar código fuente
-      run: javac -d bin src/*.java
+      run: javac -d bin src/Game.java src/Board.java src/Pacman.java src/Ghost.java src/Direction.java
         
     - name: Listar archivos compilados
       run: ls -la bin/
