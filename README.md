@@ -5,6 +5,12 @@
 
 Juego básico de Pac-Man desarrollado en Java utilizando Swing para la interfaz gráfica.
 
+## 🎮 Descargar el Juego
+
+**[⬇️ Descargar pacman-game.jar](https://github.com/T0M111/pacmanProject/raw/main/public/pacman-game.jar)**
+
+También puedes acceder a la [página de descarga en GitHub Pages](https://t0m111.github.io/pacmanProject/) o clonar el [repositorio completo](https://github.com/T0M111/pacmanProject).
+
 ## Características del Juego
 
 - **Laberinto interactivo**: Tablero configurable de 15x15 celdas con paredes y espacios para moverse
