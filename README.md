@@ -193,7 +193,7 @@ El juego también se despliega automáticamente en GitHub Pages en cada push a l
 
 ## Autor
 
-Proyecto desarrollado por [paberlo].
+Proyecto desarrollado por [T0M111].
 
 ---
 
