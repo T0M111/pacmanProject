@@ -28,7 +28,7 @@ jobs:
       run: mkdir -p bin
       
     - name: Compilar código fuente
-      run: javac -d bin src/*.java
+      run: javac -d bin src/Game.java src/Board.java src/Pacman.java src/Ghost.java src/Direction.java
         
     - name: Listar archivos compilados
       run: ls -la bin/
@@ -46,3 +46,16 @@ jobs:
           fi
         done
         echo "✓ Todas las clases compiladas correctamente"
+        
+    - name: Ejecutar tests con Maven
+      run: mvn test
+      
+    - name: Construir JAR ejecutable
+      run: mvn package -DskipTests
+      
+    - name: Subir JAR como artefacto
+      uses: actions/upload-artifact@v4
+      with:
+        name: pacman-game
+        path: target/pacman-project-1.0-SNAPSHOT.jar
+        retention-days: 90
