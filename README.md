@@ -25,9 +25,26 @@ src/
 ## Requisitos
 
 - Java 8 o superior
+- Maven 3.6 o superior (para compilar y ejecutar tests)
 - (Opcional) IDE como IntelliJ IDEA, Eclipse, VSCode, etc.
 
 ## Compilación y Ejecución
+
+### Con Maven (recomendado)
+
+```bash
+# Compilar el proyecto
+mvn compile
+
+# Ejecutar el juego
+mvn exec:java -Dexec.mainClass="Game"
+
+# O compilar manualmente y ejecutar
+mvn compile
+java -cp target/classes Game
+```
+
+### Sin Maven (método tradicional)
 
 Desde la terminal, navega al directorio raíz y ejecuta:
 
@@ -37,6 +54,37 @@ java -cp bin Game
 ```
 
 O si usas un IDE, simplemente importa el proyecto y ejecuta la clase `Game`.
+
+## Tests Unitarios
+
+El proyecto incluye tests unitarios con JUnit 5 y cobertura de código con JaCoCo.
+
+### Ejecutar los tests
+
+```bash
+# Ejecutar todos los tests
+mvn test
+
+# Ver el reporte de cobertura
+mvn test
+# El reporte se genera en: target/site/jacoco/index.html
+```
+
+### Cobertura de Código
+
+El proyecto tiene una cobertura de **57.8%** de las líneas de código:
+
+- **Direction.java**: 100% - Todas las direcciones y ángulos probados
+- **Board.java**: 56.5% - Detección de paredes, colisiones, wrapping
+- **Pacman.java**: 41% - Sistema de puntuación y posición
+- **Ghost.java**: 29.5% - Creación y posicionamiento de fantasmas
+- **Game.java**: Métodos de reflexión probados
+
+Los tests incluyen:
+- 29 tests unitarios en total
+- Cobertura de lógica de negocio principal
+- Tests de métodos públicos y getters
+- Validación de constantes y configuración
 
 ## Controles
 

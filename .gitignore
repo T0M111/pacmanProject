@@ -2,6 +2,9 @@
 bin/
 *.class
 
+# Maven
+target/
+
 # IDE files
 .idea/
 *.iml
