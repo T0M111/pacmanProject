@@ -58,7 +58,7 @@ public class Ghost {
         // Probabilidad de perseguir basada en el nivel de inteligencia
         // Nivel 1: 10% (movimiento mayormente aleatorio pero con algo de persecución para salir del área inicial)
         // Nivel 2: 30% de probabilidad de perseguir
-        // Nivel 3+: 60% + 10% por cada nivel adicional (máximo 90%)
+        // Nivel 3+: 60% + 10% por cada nivel adicional (máximo 60%)
         int chaseChance;
         switch (intelligenceLevel) {
             case 1:
@@ -68,7 +68,7 @@ public class Ghost {
                 chaseChance = 30;
                 break;
             default:
-                chaseChance = Math.min(60 + (intelligenceLevel - 3) * 10, 90);
+                chaseChance = Math.min(60 + (intelligenceLevel - 3) * 10, 60);
                 break;
         }
         return random.nextInt(100) < chaseChance;

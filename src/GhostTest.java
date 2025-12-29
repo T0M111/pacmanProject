@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,15 +22,15 @@ public class GhostTest {
 
     @Test
     public void testInitialPosition() {
-        assertEquals(200, ghost.getX());
-        assertEquals(200, ghost.getY());
+        Assertions.assertEquals(200, ghost.getX());
+        Assertions.assertEquals(200, ghost.getY());
     }
 
     @Test
     public void testGettersReturnCorrectValues() {
         Ghost testGhost = new Ghost(150, 250, Color.PINK, board, pacman, 2);
-        assertEquals(150, testGhost.getX());
-        assertEquals(250, testGhost.getY());
+        Assertions.assertEquals(150, testGhost.getX());
+        Assertions.assertEquals(250, testGhost.getY());
     }
 
     @Test
@@ -57,7 +58,7 @@ public class GhostTest {
     @Test
     public void testPositionAfterCreation() {
         Ghost ghost1 = new Ghost(180, 220, Color.ORANGE, board, pacman, 1);
-        assertEquals(180, ghost1.getX());
-        assertEquals(220, ghost1.getY());
+        Assertions.assertEquals(180, ghost1.getX());
+        Assertions.assertEquals(220, ghost1.getY());
     }
 }

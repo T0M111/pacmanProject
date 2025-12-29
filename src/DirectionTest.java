@@ -1,3 +1,5 @@
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,25 +11,25 @@ public class DirectionTest {
     @Test
     public void testLeftDirection() {
         Direction left = Direction.LEFT;
-        assertEquals(180, left.getAngle());
+        Assertions.assertEquals(180, left.getAngle());
     }
 
     @Test
     public void testRightDirection() {
         Direction right = Direction.RIGHT;
-        assertEquals(0, right.getAngle());
+        Assertions.assertEquals(0, right.getAngle());
     }
 
     @Test
     public void testUpDirection() {
         Direction up = Direction.UP;
-        assertEquals(90, up.getAngle());
+        Assertions.assertEquals(90, up.getAngle());
     }
 
     @Test
     public void testDownDirection() {
         Direction down = Direction.DOWN;
-        assertEquals(270, down.getAngle());
+        Assertions.assertEquals(270, down.getAngle());
     }
 
     @Test

@@ -1,3 +1,5 @@
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,18 +18,18 @@ public class BoardTest {
 
     @Test
     public void testBoardConstants() {
-        assertEquals(20, Board.TILE_SIZE);
-        assertEquals(19, Board.BOARD_WIDTH);
-        assertEquals(19, Board.BOARD_HEIGHT);
-        assertEquals(0, Board.EMPTY);
-        assertEquals(1, Board.WALL);
-        assertEquals(2, Board.POINT);
+        Assertions.assertEquals(20, Board.TILE_SIZE);
+        Assertions.assertEquals(19, Board.BOARD_WIDTH);
+        Assertions.assertEquals(19, Board.BOARD_HEIGHT);
+        Assertions.assertEquals(0, Board.EMPTY);
+        Assertions.assertEquals(1, Board.WALL);
+        Assertions.assertEquals(2, Board.POINT);
     }
 
     @Test
     public void testIsWallOnWall() {
         // Top-left corner is always a wall in all levels
-        assertTrue(board.isWall(0, 0));
+        Assertions.assertTrue(board.isWall(0, 0));
     }
 
     @Test
@@ -50,7 +52,7 @@ public class BoardTest {
     public void testWrapXOutOfBoundsLeft() {
         int x = -30; // Less than -TILE_SIZE
         int wrappedX = board.wrapX(x);
-        assertEquals(board.getBoardPixelWidth() - Board.TILE_SIZE, wrappedX);
+        Assertions.assertEquals(board.getBoardPixelWidth() - Board.TILE_SIZE, wrappedX);
     }
 
     @Test
@@ -63,7 +65,7 @@ public class BoardTest {
     @Test
     public void testGetBoardPixelWidth() {
         int expectedWidth = Board.BOARD_WIDTH * Board.TILE_SIZE;
-        assertEquals(expectedWidth, board.getBoardPixelWidth());
+        Assertions.assertEquals(expectedWidth, board.getBoardPixelWidth());
     }
 
     @Test
@@ -80,8 +82,8 @@ public class BoardTest {
     @Test
     public void testWallDetectionAtEdges() {
         // Test walls at the edges of the board
-        assertTrue(board.isWall(0, 0));
-        assertTrue(board.isWall(Board.BOARD_WIDTH * Board.TILE_SIZE - 1, 0));
+        Assertions.assertTrue(board.isWall(0, 0));
+        Assertions.assertTrue(board.isWall(Board.BOARD_WIDTH * Board.TILE_SIZE - 1, 0));
     }
 
     @Test
@@ -89,7 +91,7 @@ public class BoardTest {
         // Test exactly at the boundary
         int boardWidth = board.getBoardPixelWidth();
         
-        assertEquals(0, board.wrapX(boardWidth));
-        assertEquals(boardWidth - Board.TILE_SIZE, board.wrapX(-Board.TILE_SIZE - 1));
+        Assertions.assertEquals(0, board.wrapX(boardWidth));
+        Assertions.assertEquals(boardWidth - Board.TILE_SIZE, board.wrapX(-Board.TILE_SIZE - 1));
     }
 }

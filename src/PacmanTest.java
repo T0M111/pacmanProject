@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,29 +20,29 @@ public class PacmanTest {
 
     @Test
     public void testInitialPosition() {
-        assertEquals(100, pacman.getX());
-        assertEquals(100, pacman.getY());
+        Assertions.assertEquals(100, pacman.getX());
+        Assertions.assertEquals(100, pacman.getY());
     }
 
     @Test
     public void testInitialScore() {
-        assertEquals(0, pacman.getScore());
+        Assertions.assertEquals(0, pacman.getScore());
     }
 
     @Test
     public void testAddScore() {
         pacman.addScore(10);
-        assertEquals(10, pacman.getScore());
+        Assertions.assertEquals(10, pacman.getScore());
         
         pacman.addScore(20);
-        assertEquals(30, pacman.getScore());
+        Assertions.assertEquals(30, pacman.getScore());
     }
 
     @Test
     public void testAddNegativeScore() {
         pacman.addScore(50);
         pacman.addScore(-10);
-        assertEquals(40, pacman.getScore());
+        Assertions.assertEquals(40, pacman.getScore());
     }
 
     @Test
@@ -49,14 +50,14 @@ public class PacmanTest {
         for (int i = 0; i < 10; i++) {
             pacman.addScore(5);
         }
-        assertEquals(50, pacman.getScore());
+        Assertions.assertEquals(50, pacman.getScore());
     }
 
     @Test
     public void testGettersReturnCorrectValues() {
         Pacman testPacman = new Pacman(200, 300, board);
-        assertEquals(200, testPacman.getX());
-        assertEquals(300, testPacman.getY());
-        assertEquals(0, testPacman.getScore());
+        Assertions.assertEquals(200, testPacman.getX());
+        Assertions.assertEquals(300, testPacman.getY());
+        Assertions.assertEquals(0, testPacman.getScore());
     }
 }
