@@ -16,6 +16,12 @@ jobs:
       contents: write
       pages: write
       id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
     
     steps:
     - name: Checkout código
